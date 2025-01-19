@@ -3,7 +3,7 @@
 # Get project name from argument or use default
 PROJECT_NAME=${1:-"system-monitor"}
 # installation directory
-INSTALL_DIR="/usr/local/bin/${PROJECT_NAME}"
+INSTALL_DIR="/usr/local/lib/${PROJECT_NAME}"
 # the name of the service
 SERVICE_NAME="${PROJECT_NAME}.service"
 # the name of the timer
@@ -23,8 +23,14 @@ sudo mkdir -p "$INSTALL_DIR"
 # Copy all source files
 sudo cp -r src/* "$INSTALL_DIR/"
 
+# Ensure no directory exists where the wrapper script should be
+if [ -d "/usr/local/bin/$PROJECT_NAME" ]; then
+  echo "Error: A directory named '$PROJECT_NAME' exists in /usr/local/bin. Please remove it."
+  exit 1
+fi
+
 # Create wrapper script
-sudo tee "/usr/local/bin/$PROJECT_NAME" << EOF
+sudo tee "/usr/local/bin/$PROJECT_NAME" > /dev/null  << EOF
 #!/bin/bash
 $INSTALL_DIR/main.sh "\$@"
 EOF
@@ -33,7 +39,7 @@ EOF
 sudo chmod +x "/usr/local/bin/$PROJECT_NAME"
 
 # Create and install systemd service
-sudo tee "/etc/systemd/system/$SERVICE_NAME" << EOF
+sudo tee "/etc/systemd/system/$SERVICE_NAME" > /dev/null  << EOF
 [Unit]
 Description=$PROJECT_NAME Service
 After=network.target
@@ -55,7 +61,7 @@ WantedBy=multi-user.target
 EOF
 
 # Create and install systemd timer
-sudo tee "/etc/systemd/system/$TIMER_NAME" << EOF
+sudo tee "/etc/systemd/system/$TIMER_NAME" > /dev/null  << EOF
 [Unit]
 Description=$PROJECT_NAME Timer that runs every 1 minute
 
@@ -72,7 +78,7 @@ EOF
 
 # Create logrotate configuration
 sudo mkdir -p /etc/logrotate.d
-sudo tee "/etc/logrotate.d/$PROJECT_NAME" << EOF
+sudo tee "/etc/logrotate.d/$PROJECT_NAME" > /dev/null  << EOF
 /var/log/${PROJECT_NAME}/*.log {
     daily
     rotate 7
@@ -89,7 +95,7 @@ EOF
 
 # Create journal configuration for this service
 sudo mkdir -p /etc/systemd/journald.conf.d
-sudo tee "/etc/systemd/journald.conf.d/$LOG_CONF_NAME" << EOF
+sudo tee "/etc/systemd/journald.conf.d/$LOG_CONF_NAME" > /dev/null  << EOF
 [Journal]
 # Maximum size for this service's journal
 SystemMaxUse=100M
@@ -107,7 +113,7 @@ sudo mkdir -p "$LOG_DIR"
 sudo chmod 755 "$LOG_DIR"
 
 # In install.sh, add this environment setup
-sudo tee "/etc/profile.d/monitor-script.sh" << EOF
+sudo tee "/etc/profile.d/monitor-script.sh" > /dev/null  << EOF
 export MONITOR_SCRIPT_LOG_FILE="$LOG_FILE"
 export MONITOR_SCRIPT_ERROR_LOG="$ERROR_LOG_FILE"
 EOF
