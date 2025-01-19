@@ -23,6 +23,15 @@ sudo mkdir -p "$INSTALL_DIR"
 # Copy all source files
 sudo cp -r src/* "$INSTALL_DIR/"
 
+# Create wrapper script
+sudo tee "/usr/local/bin/$PROJECT_NAME" << EOF
+#!/bin/bash
+$INSTALL_DIR/main.sh "\$@"
+EOF
+
+# Make wrapper script executable
+sudo chmod +x "/usr/local/bin/$PROJECT_NAME"
+
 # Create and install systemd service
 sudo tee "/etc/systemd/system/$SERVICE_NAME" << EOF
 [Unit]
