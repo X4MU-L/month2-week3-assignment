@@ -25,7 +25,7 @@ sudo rm -f "/etc/logrotate.d/$PROJECT_NAME"
 sudo rm -f "/etc/systemd/journald.conf.d/$LOG_CONF_NAME"
 
 # Remove program files
-sudo rm -rf "/usr/local/bin/$PROJECT_NAME"
+sudo rm -rf "/usr/local/lib/$PROJECT_NAME"
 sudo rm -f "/usr/local/bin/$PROJECT_NAME"
 
 # remove environmental variables
