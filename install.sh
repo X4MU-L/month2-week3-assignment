@@ -35,6 +35,8 @@ sudo tee "/usr/local/bin/$PROJECT_NAME" > /dev/null  << EOF
 $INSTALL_DIR/main.sh "\$@"
 EOF
 
+# Make main script executable
+sudo chmod +x "$INSTALL_DIR/main.sh"
 # Make wrapper script executable
 sudo chmod +x "/usr/local/bin/$PROJECT_NAME"
 
