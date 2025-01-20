@@ -23,3 +23,27 @@ curl -sSL https://raw.githubusercontent.com/X4MU-L/month2-week3-assignment/main/
 # or
 curl -sSL https://raw.githubusercontent.com/X4MU-L/month2-week3-assignment/main/install.sh| sudo bash -s -- <name_of_command>
 ```
+
+# create nginx server and capture and analyze packages
+
+```bash
+sudo bash capture_nginx
+#or run
+sudo ./capture_ngix
+```
+
+```bash
+# replace eth0 with an actual network dev on your syste,
+sudo tcpdump -i eth0 port 80 -w nginx_traffic.pcap
+```
+
+in a different terminal
+
+```bash
+curl http://localhost
+```
+
+```bash
+# read and analyze the captures packets using wireshark
+wireshark
+```

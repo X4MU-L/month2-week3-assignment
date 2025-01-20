@@ -114,7 +114,7 @@ sudo mkdir -p "$LOG_DIR"
 # Set proper permissions
 sudo chmod 755 "$LOG_DIR"
 
-# In install.sh, add this environment setup
+# creat environment variables
 sudo tee "/etc/profile.d/monitor-script.sh" > /dev/null  << EOF
 export MONITOR_SCRIPT_LOG_FILE="$LOG_FILE"
 export MONITOR_SCRIPT_ERROR_LOG="$ERROR_LOG_FILE"
