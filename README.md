@@ -34,7 +34,7 @@ sudo ./capture_ngix
 
 ```bash
 # replace eth0 with an actual network dev on your syste,
-sudo tcpdump -i eth0 port 80 -w nginx_traffic.pcap
+sudo tcpdump -i any port 80 -w nginx_traffic.pcap
 ```
 
 in a different terminal
@@ -45,5 +45,5 @@ curl http://localhost
 
 ```bash
 # read and analyze the captures packets using wireshark
-wireshark
+ wireshark -r nginx_traffic.pcap
 ```
